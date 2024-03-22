@@ -1,0 +1,12 @@
+{
+    "title": "GeoGuess Whiz",
+    "learnLink": "Apprendre",
+    "scoresLink": "Scores",
+    "gamesDropdown": "Jeux",
+    "gamesDropdownOption1": "Devine le Drapeau",
+    "gamesDropdownOption2": "Devine la Monnaie",
+    "gamesDropdownOption3": "Devine le Continent",
+    "languageDropdown": "Langue",
+    "languageDropdownOption1": "Anglais",
+    "languageDropdownOption2": "Français"
+  }

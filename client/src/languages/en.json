@@ -1,0 +1,15 @@
+{
+    "title": "GeoGuess Whiz",
+    "learnLink": "Learn",
+    "scoresLink": "Scores",
+    "gamesDropdown": "Games",
+    "gamesDropdownOption1": "Flag Guesser",
+    "gamesDropdownOption2": "Currency Guesser",
+    "gamesDropdownOption3": "Continent Guesser",
+    "gamesDropdownToolTip1": "Flag Game Desc Goes Here....",
+    "gamesDropdownToolTip2": "Currency Game Desc Goes Here....",
+    "gamesDropdownToolTip3": "Continent Game Desc Goes Here....",
+    "languageDropdown": "Language",
+    "languageDropdownOption1": "English",
+    "languageDropdownOption2": "French"
+}
