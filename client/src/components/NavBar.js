@@ -29,13 +29,13 @@ const NavBar = () => {
         expand="lg" 
         className="bg-secondary">
         <Container>
-          <Navbar.Brand href="/">{t('title')}</Navbar.Brand>
+          <Navbar.Brand className="text-white" href="/">{t('title')}</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/learn">{t('learnLink')}</Nav.Link>
-              <Nav.Link href="/scores">{t('scoresLink')}</Nav.Link>
-              <NavDropdown title={t('gamesDropdown')} id="country-games">
+              <Nav.Link className="text-white" href="/learn">{t('learnLink')}</Nav.Link>
+              <Nav.Link className="text-white" href="/scores">{t('scoresLink')}</Nav.Link>
+              <NavDropdown className="custom-dropdown" title={t('gamesDropdown')} id="country-games">
                 <NavDropdown.Item id="flag-game" href="/flag-game" data-bs-toggle="tooltip">
                   {t('gamesDropdownOption1')}
                 </NavDropdown.Item>
@@ -57,7 +57,7 @@ const NavBar = () => {
               </NavDropdown>
             </Nav>
             <Nav>
-              <NavDropdown title={t('languageDropdown')} id="language-selector">
+              <NavDropdown className="custom-dropdown" title={t('languageDropdown')} id="language-selector">
                 <NavDropdown.Item onClick={() => changeLanguage('en')}>{t('languageDropdownOption1')}</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => changeLanguage('fr')}>{t('languageDropdownOption2')}</NavDropdown.Item>
               </NavDropdown>

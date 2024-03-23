@@ -11,6 +11,7 @@ const HomeAllFlags = () => {
     const [flagImagePngs, setFlagImagePngs] = useState([]);
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [selectedCountry, setSelectedCountry] = useState(null);
+    const [flagsLoading, setFlagsLoading] = useState(true)
     const [imageLoading, setImageLoading] = useState(true);
 
     const {t} = useTranslation();
@@ -68,13 +69,16 @@ const HomeAllFlags = () => {
 
     return(
         <div id="flag-container">
+            {flagsLoading && <Spinner />}
             {flagImagePngs.map((imageUrl, index) => (
                 <img 
                     onClick={() => openModal(backendData[index])} 
                     id="flag-img" 
                     key={index} 
                     src={imageUrl} 
-                    alt={`Flag ${index}`} />
+                    alt={`Flag ${index}`}
+                    onLoad={() => setFlagsLoading(false)}
+                    onError={() => setFlagsLoading(false)} />
             ))}
             {modalIsOpen && selectedCountry &&( 
                 <ReactModal 
@@ -87,11 +91,13 @@ const HomeAllFlags = () => {
                             <div>
                                 {`${t('modalCommonName')}: ${selectedCountry.name.common}`}
                             </div>
+                            <div style={{paddingTop: '3px'}}>
                                 {`${t('modalCurrency')}: ${Object.values(selectedCountry.currencies)[0].name}`}
-                            <div>
+                            </div>
+                            <div style={{paddingTop: '3px'}}>
                                 <a target='_blank' rel="noreferrer" href={`${selectedCountry.maps.googleMaps}`}>{t('modalMapLink')}</a>
                             </div>
-                            <div>
+                            <div style={{paddingTop: '3px'}}>
                                 {`${t('modalCapital')}: ${selectedCountry.capital}`}
                             </div>
                             {imageLoading && <Spinner />}
@@ -103,6 +109,16 @@ const HomeAllFlags = () => {
                                 onLoad={() => setImageLoading(false)}
                                 onError={() => setImageLoading(false)}>
                             </img>
+                            <div style={{paddingTop: '60px'}}>
+                                <img 
+                                    src={selectedCountry.flags.png}
+                                    style={{height:'100px', width:'150px', borderRadius: '10px'}}
+                                    alt=''>
+                                </img>
+                                <div>
+                                    <i>{selectedCountry.flags.alt}</i>
+                                </div>
+                            </div>
                         </div>
                 </ReactModal>
             )}
