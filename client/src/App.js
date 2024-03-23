@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import NavBar from './components/NavBar';
 import { I18nextProvider } from 'react-i18next'; 
 import i18n from 'i18next';
-import enTranslations from './languages/en.json';
-import frTranslations from './languages/fr.json';
+import enTranslations from './language-text/en.json';
+import frTranslations from './language-text/fr.json';
+import HomeAllFlags from './components/HomeAllFlags';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 i18n.init({
   interpolation: { escapeValue: false },
@@ -19,22 +20,14 @@ i18n.init({
 });
  
 const App = () => {
-
-  const [backendData, setBackendData] = useState([{}]);
-  
-  useEffect(() => {
-    fetch("/rand-country-flags").then(
-      response => response.json()
-    ).then(
-      data => {
-        setBackendData(data)
-      }
-    )
-  }, [])
-
   return (
     <I18nextProvider i18n={i18n}>
       <NavBar></NavBar>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomeAllFlags />}></Route>
+        </Routes>
+      </Router>
     </I18nextProvider>
   )
 }

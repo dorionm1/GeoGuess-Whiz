@@ -11,5 +11,9 @@
     "gamesDropdownToolTip3": "Continent Game Desc Goes Here....",
     "languageDropdown": "Language",
     "languageDropdownOption1": "English",
-    "languageDropdownOption2": "French"
+    "languageDropdownOption2": "French",
+    "modalCommonName": "Common Name",
+    "modalCurrency": "Currency",
+    "modalMapLink": "See on a Map!",
+    "modalCapital": "Capital"
 }

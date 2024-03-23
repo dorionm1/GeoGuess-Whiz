@@ -1,0 +1,62 @@
+body{
+    background-color: black;
+}
+
+#flag-container{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*Flag Image behavior/styling*/
+#flag-img{
+    width: 70px;
+    height: 48px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#flag-img:hover{
+    transform: scale(3);
+    cursor: pointer;
+}
+
+#coat-of-arms{
+    width: '100px'; 
+    height: '100px';  
+    position: 'absolute';
+    top: '10px';
+    right: '10px';
+}
+
+/* Flag Modal position & styling */
+#flag-modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Spinner Styling and animation */
+#spinner-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #333;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
