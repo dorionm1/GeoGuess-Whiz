@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Tooltip } from 'react-tooltip'
-import { useTranslation, i18n } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -24,9 +24,12 @@ const NavBar = () => {
     };
   
     return (
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar 
+        id="nav-bar" 
+        expand="lg" 
+        className="bg-secondary">
         <Container>
-          <Navbar.Brand href="#home">{t('title')}</Navbar.Brand>
+          <Navbar.Brand href="/">{t('title')}</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">

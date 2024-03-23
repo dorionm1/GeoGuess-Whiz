@@ -5,6 +5,19 @@ const axios = require('axios');
 
 const app = express()
 
+//Returns all Countries
+app.get("/all-countries", async (req,res) => {
+    try {
+        const response = await axios.get(allCountryKeyFilter());
+        const allCountries = response.data;
+
+        res.json(allCountries);
+    } catch (error) {
+        console.error("Error fetching countries:", error);
+        res.status(500).json({ error: "Failed to fetch countries" });
+    }
+});
+
 //Returns 10 random countries Flag Images from allCountries URL. 
 app.get("/rand-country-flags", async (req,res) => {
     try {

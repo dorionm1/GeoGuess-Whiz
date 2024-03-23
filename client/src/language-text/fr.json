@@ -1,0 +1,19 @@
+{
+  "title": "GeoGuess Whiz",
+  "learnLink": "Apprendre",
+  "scoresLink": "Scores",
+  "gamesDropdown": "Jeux",
+  "gamesDropdownOption1": "Devine le Drapeau",
+  "gamesDropdownOption2": "Devine la Devise",
+  "gamesDropdownOption3": "Devine le Continent",
+  "gamesDropdownToolTip1": "Description du jeu de drapeaux ici....",
+  "gamesDropdownToolTip2": "Description du jeu de devises ici....",
+  "gamesDropdownToolTip3": "Description du jeu de continents ici....",
+  "languageDropdown": "Langue",
+  "languageDropdownOption1": "Anglais",
+  "languageDropdownOption2": "Français",
+  "modalCommonName": "Nom Commun",
+  "modalCurrency": "Devise",
+  "modalMapLink": "Voir sur la carte!",
+  "modalCapital": "Capitale"
+}
