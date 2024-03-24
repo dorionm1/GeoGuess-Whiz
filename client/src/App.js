@@ -3,7 +3,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
 import enTranslations from './language-text/en.json';
 import frTranslations from './language-text/fr.json';
-import HomeAllFlags from './components/HomeAllFlags';
+import HomeAllFlags from './components/homePage/HomeAllFlags';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 i18n.init({

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ReactModal from 'react-modal';
-import '../App.css'
-import {modalStyles, coatOfArmsStyles} from '../styles';
-import { useTranslation } from 'react-i18next';
-import Spinner from './Spinner';
-import '../App.css';
+import { modalStyles } from '../../styles';
+import Spinner from '../Spinner';
+import '../../App.css';
+import FlagModalContent from './FlagModalContent';
 
 const HomeAllFlags = () => {
     const [backendData, setBackendData] = useState([{}]);
@@ -13,8 +12,6 @@ const HomeAllFlags = () => {
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [flagsLoading, setFlagsLoading] = useState(true)
     const [imageLoading, setImageLoading] = useState(true);
-
-    const {t} = useTranslation();
 
     const openModal = (country) => {
         if (!modalIsOpen) {
@@ -26,7 +23,7 @@ const HomeAllFlags = () => {
     const closeModal = () => {
         if (modalIsOpen) {
             setSelectedCountry(null);
-            setImageLoading(true)
+            setImageLoading(true);
             setIsOpen(false);
           }
     }
@@ -87,39 +84,16 @@ const HomeAllFlags = () => {
                     onRequestClose={closeModal} 
                     style={modalStyles} 
                     ariaHideApp={false}>
-                        <div>
-                            <div>
-                                {`${t('modalCommonName')}: ${selectedCountry.name.common}`}
-                            </div>
-                            <div style={{paddingTop: '3px'}}>
-                                {`${t('modalCurrency')}: ${Object.values(selectedCountry.currencies)[0].name}`}
-                            </div>
-                            <div style={{paddingTop: '3px'}}>
-                                <a target='_blank' rel="noreferrer" href={`${selectedCountry.maps.googleMaps}`}>{t('modalMapLink')}</a>
-                            </div>
-                            <div style={{paddingTop: '3px'}}>
-                                {`${t('modalCapital')}: ${selectedCountry.capital}`}
-                            </div>
-                            {imageLoading && <Spinner />}
-                            <img 
-                                id="coat-of-arms"
-                                style={coatOfArmsStyles}
-                                src={selectedCountry.coatOfArms.png ? selectedCountry.coatOfArms.png : selectedCountry.flags.png} 
-                                alt=""
-                                onLoad={() => setImageLoading(false)}
-                                onError={() => setImageLoading(false)}>
-                            </img>
-                            <div style={{paddingTop: '60px'}}>
-                                <img 
-                                    src={selectedCountry.flags.png}
-                                    style={{height:'100px', width:'150px', borderRadius: '10px'}}
-                                    alt=''>
-                                </img>
-                                <div>
-                                    <i>{selectedCountry.flags.alt}</i>
-                                </div>
-                            </div>
-                        </div>
+                    <FlagModalContent
+                        commonName={selectedCountry.name.common}
+                        currency={selectedCountry.currencies}
+                        mapLink={selectedCountry.maps.googleMaps}
+                        capital={selectedCountry.capital}
+                        coatOfArms={selectedCountry.coatOfArms.png}
+                        flagPng={selectedCountry.flags.png}
+                        flagAlt={selectedCountry.flags.alt}
+                        setLoading={() => setImageLoading(false)}
+                        imageLoading={imageLoading}/>
                 </ReactModal>
             )}
         </div>
