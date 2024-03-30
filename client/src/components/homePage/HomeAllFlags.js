@@ -70,7 +70,7 @@ const HomeAllFlags = () => {
             {flagImagePngs.map((imageUrl, index) => (
                 <img 
                     onClick={() => openModal(backendData[index])} 
-                    id="flag-img" 
+                    id="flag-img-home" 
                     key={index} 
                     src={imageUrl} 
                     alt={`Flag ${index}`}

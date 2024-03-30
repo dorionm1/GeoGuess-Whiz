@@ -34,7 +34,7 @@ const FlagModalContent = ({commonName, currency, mapLink, capital, coatOfArms, f
                     style={{height:'100px', width:'150px', borderRadius: '10px'}}
                     alt=''>
                 </img>
-                <div>
+                <div id='flag-alt'>
                     <i>{flagAlt}</i>
                 </div>
             </div>

@@ -11,7 +11,7 @@ body{
 }
 
 /*Flag Image behavior/styling*/
-#flag-img{
+#flag-img-home{
     width: 80px;
     height: 48px;
     margin: 5px;
@@ -21,8 +21,27 @@ body{
     transition: transform 0.3s ease;
 }
 
-#flag-img:hover{
+#flag-alt{
+    padding-top: 20px;
+}
+
+#flag-img-game{
+    width: 80px;
+    height: 48px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#flag-img-home:hover{
     transform: scale(3);
+    cursor: pointer;
+}
+
+#flag-img-game:hover{
+    transform: scale(5);
     cursor: pointer;
 }
 
@@ -66,3 +85,70 @@ body{
 .custom-dropdown .nav-link {
     color: white !important;
 }
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .dropdown-select-container {
+    margin-left: 10px;
+  }
+  
+  .dropdown-select {
+    width: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
+    appearance: none;
+  }
+  
+  .dropdown-select:hover {
+    border-color: #999;
+  }
+  
+  .dropdown-select:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 5px #66afe9;
+  }
+  
+  .dropdown-select option {
+    background-color: #fff;
+    color: #333;
+  }
+  
+  .dropdown-select option:hover {
+    background-color: grey;
+  }
+
+  .submit-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
+  }
+
+  .submit-button-container {
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  #timer{
+    color:white;
+    font-size: 18px;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+  }
