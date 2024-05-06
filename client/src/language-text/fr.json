@@ -15,5 +15,8 @@
   "modalCommonName": "Nom Commun",
   "modalCurrency": "Devise",
   "modalMapLink": "Voir sur la carte!",
-  "modalCapital": "Capitale"
+  "modalCapital": "Capitale",
+  "logIn": "Connexion",
+  "logOut": "Déconnexion",
+  "signUp": "S'inscrire"
 }

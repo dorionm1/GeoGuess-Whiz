@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userid       Int         @id @default(autoincrement())
+  firstname    String      @db.VarChar(50)
+  lastname     String      @db.VarChar(50)
+  emailaddress String      @db.VarChar(100)
+  username     String      @unique @db.VarChar(50)
+  password     String      @db.VarChar(255)
+  usergame     usergame[]
+  userscore    userscore[]
+}
+
+model gametype {
+  gameid          Int         @id @default(autoincrement())
+  gamedescription String      @db.VarChar(255)
+  usergame        usergame[]
+  userscore       userscore[]
+}
+
+model usergame {
+  usergameid    Int       @id @default(autoincrement())
+  userid        Int?
+  gameid        Int?
+  gamestartdate DateTime  @db.Date
+  gameenddate   DateTime? @db.Date
+  gametype      gametype? @relation(fields: [gameid], references: [gameid], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_type")
+  User          User?     @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_game")
+}
+
+model userscore {
+  scoreid  Int       @id @default(autoincrement())
+  userid   Int?
+  gameid   Int?
+  score    Int
+  gametype gametype? @relation(fields: [gameid], references: [gameid], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_score")
+  User     User?     @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_score")
+}
