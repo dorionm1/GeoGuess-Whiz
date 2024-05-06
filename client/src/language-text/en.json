@@ -15,5 +15,8 @@
     "modalCommonName": "Common Name",
     "modalCurrency": "Currency",
     "modalMapLink": "See on a Map!",
-    "modalCapital": "Capital"
+    "modalCapital": "Capital",
+    "logIn": " Log In",
+    "logOut": "Log Out",
+    "signUp": "Sign Up"
 }

@@ -6,6 +6,9 @@ import frTranslations from './language-text/fr.json';
 import HomeAllFlags from './components/homePage/HomeAllFlags';
 import FlagGuessForm from './components/flagGuesser/FlagGuessForm';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import SignUpForm from './components/signIn-forms/SignUpForm';
+import LogInForm from './components/signIn-forms/LoginForm';
+import UserScores from './components/scores';
 
 i18n.init({
   interpolation: { escapeValue: false },
@@ -28,6 +31,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomeAllFlags />}></Route>
           <Route path="/flag-game" element={<FlagGuessForm />}></Route>
+          <Route path="/sign-up" element={<SignUpForm />}></Route>
+          <Route path="/log-in" element={<LogInForm />}></Route>
+          <Route path="/scores" element={<UserScores />}></Route>
         </Routes>
       </Router>
     </I18nextProvider>
