@@ -7,7 +7,7 @@ const UserScores = () => {
     useEffect(() => {
       const storedUsername = sessionStorage.getItem('authenticatedUser');
       if (storedUsername) {
-        fetch(`/getUser/${encodeURIComponent(storedUsername)}`)
+        fetch(`/get-user/${encodeURIComponent(storedUsername)}`)
           .then(response => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -22,7 +22,7 @@ const UserScores = () => {
             console.error('Error fetching user:', error);
           });
       }
-    }, [user]);
+    }, [user?.firstname]);
 
     return (
         <div>

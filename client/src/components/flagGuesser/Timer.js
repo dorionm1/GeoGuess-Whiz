@@ -12,6 +12,7 @@ const Timer = () => {
       }, 1000);
     } else {
       clearInterval(interval);
+      setIsActive(false);
     }
     return () => clearInterval(interval);
   }, [isActive]);

@@ -19,7 +19,7 @@ const LogInForm = () => {
       e.preventDefault();
       try {
         console.log('trying')
-        const response = await fetch('/login', {
+        const response = await fetch('/user-login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

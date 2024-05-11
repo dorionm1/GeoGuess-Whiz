@@ -26,7 +26,7 @@ const SignUpForm = () => {
     };
 
     try {
-      const response = await fetch('/createUser', {
+      const response = await fetch('/create-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
