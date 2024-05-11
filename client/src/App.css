@@ -135,9 +135,19 @@ body{
     cursor: pointer;
     font-size: 16px;
   }
+
+  .submit-button:disabled {
+    background-color: #ccc; /* Grey color for disabled state */
+    color: #666;
+    cursor: not-allowed;
+  }
   
   .submit-button:hover {
     background-color: #45a049;
+  }
+
+  .submit-button:hover:disabled {
+    background-color: grey;
   }
 
   .submit-button-container {

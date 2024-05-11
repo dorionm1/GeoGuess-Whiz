@@ -10,13 +10,16 @@ const FlagGuessForm = () => {
     const [allCountryNames, serAllCountryNames] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [validationError, setValidationError] = useState(false);
+    const [flagCountryArr, setFlagCountryArr] = useState([]);
 
     useEffect(() => {
-        fetch("/rand-country-flags").then(
+        fetch("/rand-country").then(
           response => response.json()
         ).then(
           data => {
-            setBackendData(data)
+            setBackendData(data);
+            const names = data.map(country => country.name.common);
+            setFlagCountryArr(names);
           }
         )
     }, [])
@@ -48,25 +51,31 @@ const FlagGuessForm = () => {
                 countryDdOptions.push(countryBackendData[i].name.common)
             }
         }
+        countryDdOptions.sort((a, b) => a.localeCompare(b));
         serAllCountryNames(countryDdOptions)
     },[countryBackendData])
 
     const handleDropdownChange = (index, event) => {
         const newSelectedOptions = [...selectedOptions];
         newSelectedOptions[index] = event.target.value;
+
         setSelectedOptions(newSelectedOptions);
       };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const filteredselectedOptions = selectedOptions.filter(Boolean);
-        console.log(filteredselectedOptions)
+        console.log('Selected', selectedOptions)
+        console.log('FlagNameArr', flagCountryArr)
         if(filteredselectedOptions.length < 10) {
             setValidationError(true);
         } else {
-            setValidationError(false)
-        }
+          setValidationError(false);
+      }
+          generateScore(flagCountryArr,selectedOptions);
+          sendScore(generateScore(flagCountryArr,selectedOptions),sessionStorage.getItem('authenticatedUser'), 1)
       };
+  
 
       return (
         <div style={{ position: 'relative', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -91,7 +100,7 @@ const FlagGuessForm = () => {
                 </div>
               ))}
               <div className="submit-button-container">
-                <button className="submit-button" type="submit">Submit</button>
+                <button className="submit-button" type="submit" disabled={selectedOptions.length < 10}>Submit</button>
               </div>
             </form>
             <div style={{ position: 'absolute', top: '30px', left: '30px' }}>
@@ -101,5 +110,29 @@ const FlagGuessForm = () => {
         </div>
       );
 };
+
+const generateScore = (flagCountry, flagCountryGuess) => {
+  let matches = 0;
+  for (let i = 0; i < flagCountry.length; i++) {
+      if (flagCountry[i] === flagCountryGuess[i]) {
+          matches++;
+      }
+  }
+  console.log((matches / 10 * 100))
+  return ((matches / 10) * 100)
+}
+
+const sendScore = (score, username, gameID) => {
+  fetch('/submit-score', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ score, username, gameID })
+  })
+  .then(response => response.json())
+  .then(data => console.log('Success:', data))
+  .catch((error) => console.error('Error:', error));
+}
 
 export default FlagGuessForm;
