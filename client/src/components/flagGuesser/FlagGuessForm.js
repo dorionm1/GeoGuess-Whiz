@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './../../App.css'
 import FormError from '../FormError';
 import Timer from './Timer';
+import { jwtDecode } from 'jwt-decode';
 
 const FlagGuessForm = () => {
     const [backendData, setBackendData] = useState([{}]);
@@ -11,6 +13,8 @@ const FlagGuessForm = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [validationError, setValidationError] = useState(false);
     const [flagCountryArr, setFlagCountryArr] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/rand-country").then(
@@ -62,19 +66,26 @@ const FlagGuessForm = () => {
         setSelectedOptions(newSelectedOptions);
       };
 
-    const handleSubmit = (event) => {
+      const handleSubmit = (event) => {
         event.preventDefault();
-        const filteredselectedOptions = selectedOptions.filter(Boolean);
-        console.log('Selected', selectedOptions)
-        console.log('FlagNameArr', flagCountryArr)
-        if(filteredselectedOptions.length < 10) {
+        const filteredSelectedOptions = selectedOptions.filter(Boolean);
+        console.log('Selected', selectedOptions);
+        console.log('FlagNameArr', flagCountryArr);
+    
+        if (filteredSelectedOptions.length < 10) {
             setValidationError(true);
         } else {
-          setValidationError(false);
-      }
-          generateScore(flagCountryArr,selectedOptions);
-          sendScore(generateScore(flagCountryArr,selectedOptions),sessionStorage.getItem('authenticatedUser'), 1)
-      };
+            setValidationError(false);
+            const score = generateScore(flagCountryArr, selectedOptions);
+            const token = localStorage.getItem('token');
+            if (token) {
+                const decodedToken = jwtDecode(token);
+                const userId = decodedToken.userid;
+                sendScore(score, userId, 1);
+                navigate('/scores');
+            }
+        }
+    };
   
 
       return (
@@ -122,17 +133,18 @@ const generateScore = (flagCountry, flagCountryGuess) => {
   return ((matches / 10) * 100)
 }
 
-const sendScore = (score, username, gameID) => {
-  fetch('/submit-score', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ score, username, gameID })
-  })
-  .then(response => response.json())
-  .then(data => console.log('Success:', data))
-  .catch((error) => console.error('Error:', error));
-}
+  const sendScore = (score, userId, gameID) => {
+    fetch('/submit-score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ score, userId, gameID })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+};
 
 export default FlagGuessForm;

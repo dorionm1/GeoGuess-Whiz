@@ -2,12 +2,26 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const axios = require('axios');
 const express = require('express');
-
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
-
 app.use(express.json());
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Middleware to authenticate token
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.user = user;
+      next();
+  });
+};
 
 //Returns all Country Objects
 app.get("/all-countries", async (req,res) => {
@@ -67,42 +81,48 @@ app.post("/create-user", async (req, res) => {
 
 //Checking to see if user should be logged in or not depending on username & password send in req. body.
 app.post('/user-login', async (req, res) => {
-    const { username, password } = req.body;
-  
-    try {
+  const { username, password } = req.body;
+
+  try {
       const user = await prisma.user.findUnique({
-        where: {
-          username: username,
-        },
+          where: { username: username },
       });
-  
+
       if (!user) {
-        return res.status(401).json({ error: 'Invalid username or password' });
+          return res.status(401).json({ error: 'Invalid username or password' });
       }
-  
+
       const passwordMatch = await bcrypt.compare(password, user.password);
-  
+
       if (!passwordMatch) {
-        return res.status(401).json({ error: 'Invalid username or password' });
+          return res.status(401).json({ error: 'Invalid username or password' });
       }
-  
-      res.status(200).json({ message: 'Login successful', user });
-    } catch (error) {
+
+      const token = jwt.sign({ username: user.username, userid: user.userid }, JWT_SECRET, { expiresIn: '1h' });
+      res.status(200).json({ message: 'Login successful', token });
+  } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({ error: 'Internal server error' });
-    }
-  });
-  
+  }
+});
   //Gets a user from the db and returns as an object.
-  app.get("/get-user/:username", async (req, res) => {
+  app.get("/get-user", authenticateToken, async (req, res) => {
     try {
-      const { username } = req.params;
+      const userId = req.user.userid;
   
       const user = await prisma.user.findUnique({
         where: {
-          username: username,
+            userid: userId,
         },
+        include: {
+            userscore: {
+                include: {
+                    gametype: true,
+                }
+            }
+        }
       });
+
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -112,44 +132,31 @@ app.post('/user-login', async (req, res) => {
     }
   });
   
-  //Gets user scores by user username.
-  app.get("get-user-score/:username", async (req, res) => {
-    try {
-      const { username } = req.params;
-  
-      const userscore = await prisma.userscore.findUnique({
-        where: {
-          username: username,
-        },
-      });
-      if (!userscore) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-      return res.json({ userscore });
-    } catch (error) {
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-  });
-  
-app.post('/submit-score', async (req, res) => {
-    const { score, username, gameID } = req.body;
+  app.post('/submit-score', authenticateToken, async (req, res) => {
+    const { score, userId, gameID } = req.body;
+    console.log('Received score submission:', { score, userId, gameID });
 
     try {
-    const user = await prisma.user.findUnique({
-        where: { username: username }
-    });
+        const user = await prisma.user.findUnique({
+            where: { userid: userId }
+        });
 
-    const result = await prisma.userscore.create({
-        data: {
-        score: score,
-        userid: user.userid,
-        gameid: gameID
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
         }
-    });
 
-    res.json({ success: true, result });
+        const result = await prisma.userscore.create({
+            data: {
+                score: score,
+                userid: user.userid,
+                gameid: gameID
+            }
+        });
+
+        res.json({ success: true, result });
     } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to record score", error: error.message });
+        console.error('Error recording score:', error);
+        res.status(500).json({ success: false, message: 'Failed to record score', error: error.message });
     }
 });
 
