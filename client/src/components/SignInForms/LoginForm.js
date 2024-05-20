@@ -18,7 +18,6 @@ const LogInForm = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        console.log('trying')
         const response = await fetch('/user-login', {
           method: 'POST',
           headers: {
@@ -29,9 +28,10 @@ const LogInForm = () => {
             password: formData.password,
           }),
         });
-
+  
         if (response.ok) {
-          sessionStorage.setItem('authenticatedUser', formData.username)
+          const data = await response.json();
+          localStorage.setItem('token', data.token);  // Store the token in localStorage
           window.location.href = '/';
         } else {
           throw new Error(`Error: ${response.statusText}`);

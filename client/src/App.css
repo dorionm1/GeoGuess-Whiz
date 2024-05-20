@@ -214,5 +214,20 @@ body{
   background-color: #45a049;
 }
 
-/*Login Form Styling*/
+table {
+  width: 100%; /* Ensure the table occupies the full width of its container */
+  table-layout: auto; /* Automatically adjust column widths based on content */
+  border-collapse: collapse; /* Collapse table borders for a cleaner look */
+}
 
+td, th {
+  padding: 8px; /* Add padding to the cells */
+  text-align: center; /* Center-align the text */
+  border: 1px solid #ddd; /* Add borders to cells */
+  white-space: nowrap;
+  color: white; /* Prevent text wrapping in cells */
+}
+
+th {
+  background-color: grey; /* Add background color to header cells */
+}

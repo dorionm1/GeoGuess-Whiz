@@ -40,6 +40,7 @@ model userscore {
   userid   Int?
   gameid   Int?
   score    Int
+  createddate DateTime  @default(now())
   gametype gametype? @relation(fields: [gameid], references: [gameid], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_score")
   User     User?     @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_score")
 }
