@@ -17,36 +17,40 @@ const HomeAllFlags = () => {
         if (!modalIsOpen) {
             setSelectedCountry(country);
             setIsOpen(true);
-          }
-    }
+            }
+    };
 
     const closeModal = () => {
         if (modalIsOpen) {
             setSelectedCountry(null);
             setImageLoading(true);
             setIsOpen(false);
-          }
-    }
-
-    useEffect(() => {
-        fetch("/all-countries").then(
-          response => response.json()
-        ).then(
-          data => {
-            setBackendData(data)
-          }
-        )
-    }, [])
-
-    useEffect(() => {
-        const newFlagImagePngs = [];
-        for (let i = 0; i < backendData.length; i++) {
-            if (backendData[i] && backendData[i].flags && backendData[i].flags.png) {
-                newFlagImagePngs.push(backendData[i].flags.png);
             }
+    };
+
+    useEffect(() => {
+        const cachedBackendData = localStorage.getItem('backendData');
+        const cachedFlagImagePngs = localStorage.getItem('flagImagePngs');
+        
+        if (cachedBackendData && cachedFlagImagePngs) {
+            setBackendData(JSON.parse(cachedBackendData));
+            setFlagImagePngs(JSON.parse(cachedFlagImagePngs));
+            setFlagsLoading(false);
+        } else {
+            fetch("/all-countries").then(
+                response => response.json()
+            ).then(
+                data => {
+                    setBackendData(data);
+                    const newFlagImagePngs = data.map(country => country.flags.png);
+                    setFlagImagePngs(newFlagImagePngs);
+                    localStorage.setItem('backendData', JSON.stringify(data));
+                    localStorage.setItem('flagImagePngs', JSON.stringify(newFlagImagePngs));
+                    setFlagsLoading(false);
+                }
+            )
         }
-        setFlagImagePngs(newFlagImagePngs);
-    }, [backendData]);
+    }, []);
 
     useEffect(() => {
         if (modalIsOpen) {
@@ -68,35 +72,36 @@ const HomeAllFlags = () => {
         <div id="flag-container">
             {flagsLoading && <Spinner />}
             {flagImagePngs.map((imageUrl, index) => (
-                <img 
-                    onClick={() => openModal(backendData[index])} 
-                    id="flag-img-home" 
-                    key={index} 
-                    src={imageUrl} 
-                    alt={`Flag ${index}`}
-                    onLoad={() => setFlagsLoading(false)}
-                    onError={() => setFlagsLoading(false)} />
+            <img 
+                onClick={() => openModal(backendData[index])} 
+                id="flag-img-home" 
+                key={index} 
+                src={imageUrl} 
+                alt={`Flag ${index}`}
+                onLoad={() => setFlagsLoading(false)}
+                onError={() => setFlagsLoading(false)} />
             ))}
             {modalIsOpen && selectedCountry &&( 
-                <ReactModal 
-                    id="flag-modal" 
-                    isOpen={modalIsOpen} 
-                    onRequestClose={closeModal} 
-                    style={modalStyles} 
-                    ariaHideApp={false}>
-                    <FlagModalContent
-                        commonName={selectedCountry.name.common}
-                        currency={selectedCountry.currencies}
-                        mapLink={selectedCountry.maps.googleMaps}
-                        capital={selectedCountry.capital}
-                        coatOfArms={selectedCountry.coatOfArms.png}
-                        flagPng={selectedCountry.flags.png}
-                        flagAlt={selectedCountry.flags.alt}
-                        setLoading={() => setImageLoading(false)}
-                        imageLoading={imageLoading}/>
-                </ReactModal>
+            <ReactModal 
+                id="flag-modal" 
+                isOpen={modalIsOpen} 
+                onRequestClose={closeModal} 
+                style={modalStyles} 
+                ariaHideApp={false}>
+                <FlagModalContent
+                    commonName={selectedCountry.name.common}
+                    currency={selectedCountry.currencies}
+                    mapLink={selectedCountry.maps.googleMaps}
+                    capital={selectedCountry.capital}
+                    coatOfArms={selectedCountry.coatOfArms.png}
+                    flagPng={selectedCountry.flags.png}
+                    flagAlt={selectedCountry.flags.alt}
+                    setLoading={() => setImageLoading(false)}
+                    imageLoading={imageLoading}/>
+            </ReactModal>
             )}
         </div>
     )
 };
+
 export default HomeAllFlags;

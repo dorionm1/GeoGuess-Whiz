@@ -214,6 +214,14 @@ body{
   background-color: #45a049;
 }
 
+#score-title{
+  color: white;
+  font-size: 20px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
 table {
   width: 100%; /* Ensure the table occupies the full width of its container */
   table-layout: auto; /* Automatically adjust column widths based on content */
@@ -230,4 +238,19 @@ td, th {
 
 th {
   background-color: grey; /* Add background color to header cells */
+}
+
+.table-container {
+  margin: 0 auto; /* Center the container horizontally */
+  max-width: 600px; /* Set the maximum width of the table */
+}
+
+#score-table {
+  width: 100%; /* Make the table fill the container */
+  border-collapse: collapse; /* Collapse the borders of table cells */
+}
+
+#score-table th, #score-table td {
+  padding: 8px; /* Add some padding to table cells */
+  border: 1px solid #ddd; /* Add borders to table cells */
 }

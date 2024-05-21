@@ -9,7 +9,7 @@ import { jwtDecode as jwt_decode } from 'jwt-decode';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const NavBar = () => {
+const NavBar = ({ changeLanguage }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -34,11 +34,7 @@ const NavBar = () => {
     }
   }, []);
 
-  const { t, i18n } = useTranslation();
-  
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
+  const { t } = useTranslation();
   
   const tooltipStyle = {
     backgroundColor: 'white',

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import "../App.css"
 
 const ScoreTable = ({ data }) => {
     const [user, setUser] = useState(null);
     const storedToken = localStorage.getItem('token');
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (storedToken) {
@@ -34,32 +37,35 @@ const ScoreTable = ({ data }) => {
     const columns = ["createddate", "score"];
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    {/* Render column headers */}
-                    {columns.map((column, index) => (
-                        <th key={index}>
-                            {column === "createddate" ? "Date Taken" : column.charAt(0).toUpperCase() + column.slice(1)}
-                        </th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {/* Render table rows */}
-                {data.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                        {/* Render cells for each row */}
-                        {columns.map((column, columnIndex) => (
-                            <td key={columnIndex} className={column}>
-                                {/* Format the date and render the score */}
-                                {column === "createddate" ? new Date(row[column]).toLocaleString() : row[column]}
-                            </td>
+        <div className="table-container">
+            <table id="score-table">
+                <thead>
+                    <tr>
+                        {columns.map((column, index) => (
+                            <th key={index} id="score-table-column-header">
+                                {column === "createddate" ? t('dateTaken') : t('score')}
+                            </th>
                         ))}
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {data.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                            {columns.map((column, columnIndex) => (
+                                <td key={columnIndex} className={column}>
+                                    {column === "createddate"
+                                        ? new Date(row[column]).toLocaleString()
+                                        : column === "score"
+                                        ? `${row[column]}%`
+                                        : row[column]
+                                    }
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+</div>
     );
 };
 

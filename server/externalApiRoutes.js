@@ -105,59 +105,61 @@ app.post('/user-login', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
   }
 });
-  //Gets a user from the db and returns as an object.
-  app.get("/get-user", authenticateToken, async (req, res) => {
-    try {
-      const userId = req.user.userid;
-  
+
+//Gets a user from the db and returns as an object.
+app.get("/get-user", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userid;
+
+    const user = await prisma.user.findUnique({
+      where: {
+          userid: userId,
+      },
+      include: {
+          userscore: {
+              include: {
+                  gametype: true,
+              }
+          }
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    return res.json({ user });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+//Posts a user's score  
+app.post('/submit-score', authenticateToken, async (req, res) => {
+  const { score, userId, gameID } = req.body;
+
+  try {
       const user = await prisma.user.findUnique({
-        where: {
-            userid: userId,
-        },
-        include: {
-            userscore: {
-                include: {
-                    gametype: true,
-                }
-            }
-        }
+          where: { userid: userId }
       });
 
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+          return res.status(404).json({ success: false, message: 'User not found' });
       }
-      return res.json({ user });
-    } catch (error) {
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-  });
-  
-  app.post('/submit-score', authenticateToken, async (req, res) => {
-    const { score, userId, gameID } = req.body;
-    console.log('Received score submission:', { score, userId, gameID });
 
-    try {
-        const user = await prisma.user.findUnique({
-            where: { userid: userId }
-        });
+      const result = await prisma.userscore.create({
+          data: {
+              score: score,
+              userid: user.userid,
+              gameid: gameID
+          }
+      });
 
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        const result = await prisma.userscore.create({
-            data: {
-                score: score,
-                userid: user.userid,
-                gameid: gameID
-            }
-        });
-
-        res.json({ success: true, result });
-    } catch (error) {
-        console.error('Error recording score:', error);
-        res.status(500).json({ success: false, message: 'Failed to record score', error: error.message });
-    }
+      res.json({ success: true, result });
+  } catch (error) {
+      console.error('Error recording score:', error);
+      res.status(500).json({ success: false, message: 'Failed to record score', error: error.message });
+  }
 });
 
 //Returns all Country objects filtered out by Key. 
@@ -165,6 +167,7 @@ const allCountryKeyFilter = (key = '') => {
     return `https://restcountries.com/v3.1/all?fields=${key}`
 };
 
+//Gets n number of random objects from array.
 const getRandomObjects = (arr, num) => {
     const shuffled = arr.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, num);

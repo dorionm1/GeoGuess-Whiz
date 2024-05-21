@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ScoreTable from "./ScoreTable";
+import { useTranslation } from 'react-i18next';
 
 const UserScores = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const {t} = useTranslation();
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -21,14 +24,14 @@ const UserScores = () => {
         })
         .then(data => {
           setUser(data.user);
-          setLoading(false); // Set loading to false when user data is fetched
+          setLoading(false);
         })
         .catch(error => {
           console.error('Error fetching user:', error);
-          setLoading(false); // Set loading to false in case of error
+          setLoading(false);
         });
     } else {
-      setLoading(false); // Set loading to false if no token is found
+      setLoading(false);
     }
   }, []);
 
@@ -36,7 +39,7 @@ const UserScores = () => {
     <div>
       <header>
         {user &&
-        <h1>{user?.firstname}'s Scores</h1>
+        <h1 id="score-title">{user?.firstname}'s {t('scoresLink')}</h1>
         }
       </header>
       {loading ? (
