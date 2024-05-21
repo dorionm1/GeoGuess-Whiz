@@ -6,58 +6,35 @@ import Timer from './Timer';
 import { jwtDecode } from 'jwt-decode';
 
 const FlagGuessForm = () => {
-    const [backendData, setBackendData] = useState([{}]);
     const [flagImagePngs, setFlagImagePngs] = useState([]);
-    const [countryBackendData, setCountryBackgroundData] = useState([]);
-    const [allCountryNames, serAllCountryNames] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [validationError, setValidationError] = useState(false);
     const [flagCountryArr, setFlagCountryArr] = useState([]);
+    const [ddOptions, setDdOptions] = useState([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("/rand-country").then(
-          response => response.json()
-        ).then(
-          data => {
-            setBackendData(data);
-            const names = data.map(country => country.name.common);
-            setFlagCountryArr(names);
-          }
-        )
-    }, [])
+      const cachedFlagImagePngs = localStorage.getItem('flagImagePngs');
+      const cachedBackendData = localStorage.getItem('backendData');
+  
+      try {
+        if (cachedFlagImagePngs && cachedBackendData) {
+          const parsedFlagImagePngs = shuffleArray(JSON.parse(cachedFlagImagePngs)).slice(0, 10);
+          const parsedBackendData = shuffleArray(JSON.parse(cachedBackendData)).slice(0, 10);
+          const parsedDdOptions = JSON.parse(cachedBackendData);
+  
+          setFlagImagePngs(parsedFlagImagePngs);
+          setFlagCountryArr(parsedBackendData.map(country => country.name.common));
+          setDdOptions(parsedDdOptions.map(country => country.name.common));
 
-    useEffect(() => {
-        fetch("all-countries").then(
-            response => response.json()
-        ).then(
-            data => {
-                setCountryBackgroundData(data)
-            }
-        ) 
-    }, [backendData])
-
-    useEffect(() => {
-        const newFlagImagePngs = [];
-        for (let i = 0; i < backendData.length; i++) {
-            if (backendData[i] && backendData[i].flags && backendData[i].flags.png) {
-                newFlagImagePngs.push(backendData[i].flags.png);
-            }
+        } else {
+          console.error('Flag guess data not found in localStorage.');
         }
-        setFlagImagePngs(newFlagImagePngs);
-    }, [backendData]);
-
-    useEffect(() => {
-        const countryDdOptions = [];
-        for (let i = 0; i < countryBackendData.length; i++) {
-            if(countryBackendData[i] && countryBackendData[i].name && countryBackendData[i].name.common){
-                countryDdOptions.push(countryBackendData[i].name.common)
-            }
-        }
-        countryDdOptions.sort((a, b) => a.localeCompare(b));
-        serAllCountryNames(countryDdOptions)
-    },[countryBackendData])
+      } catch (error) {
+        console.error('Error parsing data from localStorage:', error);
+      }
+    }, []);
 
     const handleDropdownChange = (index, event) => {
         const newSelectedOptions = [...selectedOptions];
@@ -69,8 +46,6 @@ const FlagGuessForm = () => {
       const handleSubmit = (event) => {
         event.preventDefault();
         const filteredSelectedOptions = selectedOptions.filter(Boolean);
-        console.log('Selected', selectedOptions);
-        console.log('FlagNameArr', flagCountryArr);
     
         if (filteredSelectedOptions.length < 10) {
             setValidationError(true);
@@ -101,7 +76,7 @@ const FlagGuessForm = () => {
                     <img id="flag-img-game" src={imageUrl} alt={`Flag ${index + 1}`} />
                     <select className="dropdown-select" value={selectedOptions[index] || ""} onChange={(event) => handleDropdownChange(index, event)}>
                       <option value="">Select an option</option>
-                      {allCountryNames.map((option, optionIndex) => (
+                      {ddOptions.map((option, optionIndex) => (
                         <option key={optionIndex} value={option}>
                           {option}
                         </option>
@@ -129,7 +104,6 @@ const generateScore = (flagCountry, flagCountryGuess) => {
           matches++;
       }
   }
-  console.log((matches / 10 * 100))
   return ((matches / 10) * 100)
 }
 
@@ -143,8 +117,15 @@ const generateScore = (flagCountry, flagCountryGuess) => {
         body: JSON.stringify({ score, userId, gameID })
     })
     .then(response => response.json())
-    .then(data => console.log('Success:', data))
     .catch((error) => console.error('Error:', error));
+};
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 };
 
 export default FlagGuessForm;

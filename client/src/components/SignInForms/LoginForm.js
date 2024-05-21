@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import FormError from '../FormError';
 import './../../App.css'
 
 const LogInForm = () => {
@@ -6,6 +7,7 @@ const LogInForm = () => {
       username: '',
       password: ''
     });
+    const [error, setError] = useState(null);
   
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -31,19 +33,21 @@ const LogInForm = () => {
   
         if (response.ok) {
           const data = await response.json();
-          localStorage.setItem('token', data.token);  // Store the token in localStorage
+          localStorage.setItem('token', data.token);  
           window.location.href = '/';
         } else {
-          throw new Error(`Error: ${response.statusText}`);
+          const errorData = await response.json();
+          setError(errorData.error);
         }
       } catch (error) {
-        console.error('Error during login:', error.message);
+        setError('An error occurred while processing your request.');
       }
     };
   
     return (
         <div className="signup-form-container">
           <h2 className="signup-heading">Log In</h2>
+          {error && <FormError errorText={error}/>}
           <form onSubmit={handleSubmit} className="signup-form">
             <label htmlFor="username" className="signup-label">Username:</label>
             <input

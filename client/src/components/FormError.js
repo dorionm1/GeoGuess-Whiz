@@ -1,10 +1,10 @@
 import React from 'react';
 import './../App.css'
 
-const FormError = () => {
+const FormError = ({ errorText }) => {
   return (
     <div className="error-container">
-      <div style={{ color: 'red' }}>All dropdowns must be selected</div>
+      <div style={{ color: 'red' }}>{errorText}</div>
     </div>
   );
 };

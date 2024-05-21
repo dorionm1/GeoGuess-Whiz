@@ -16,5 +16,7 @@
     "modalCapital": "Capital",
     "logIn": " Log In",
     "logOut": "Log Out",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "dateTaken":" Date Taken",
+    "score": "Score"
 }

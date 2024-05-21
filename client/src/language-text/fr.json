@@ -1,20 +1,22 @@
 {
-  "title": "As du GeoGuess",
+  "title": "GeoGuess Whiz",
   "learnLink": "Apprendre",
   "scoresLink": "Scores",
   "gamesDropdown": "Jeux",
   "gamesDropdownOption1": "Devineur de Drapeaux",
   "gamesDropdownOption2": "Devineur de Monnaies",
   "gamesDropdownOption3": "Devineur de Continents",
-  "gamesDropdownToolTip1": "Faites de votre mieux pour associer le bon pays à son drapeau !",
+  "gamesDropdownToolTip1": "Essayez de faire de votre mieux pour associer le bon pays à son drapeau!",
   "languageDropdown": "Langue",
   "languageDropdownOption1": "Anglais",
   "languageDropdownOption2": "Français",
   "modalCommonName": "Nom Commun",
   "modalCurrency": "Monnaie",
-  "modalMapLink": "Voir sur une carte !",
+  "modalMapLink": "Voir sur une carte!",
   "modalCapital": "Capitale",
-  "logIn": "Connexion",
-  "logOut": "Déconnexion",
-  "signUp": "S'inscrire"
+  "logIn": "Se Connecter",
+  "logOut": "Se Déconnecter",
+  "signUp": "S'inscrire",
+  "dateTaken": "Date Prise",
+  "score": "Score"
 }
