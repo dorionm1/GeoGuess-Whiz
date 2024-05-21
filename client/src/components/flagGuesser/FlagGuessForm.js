@@ -10,7 +10,6 @@ const FlagGuessForm = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [validationError, setValidationError] = useState(false);
     const [flagCountryArr, setFlagCountryArr] = useState([]);
-    const [ddOptions, setDdOptions] = useState([]);
 
     const navigate = useNavigate();
 
@@ -22,11 +21,9 @@ const FlagGuessForm = () => {
         if (cachedFlagImagePngs && cachedBackendData) {
           const parsedFlagImagePngs = shuffleArray(JSON.parse(cachedFlagImagePngs)).slice(0, 10);
           const parsedBackendData = shuffleArray(JSON.parse(cachedBackendData)).slice(0, 10);
-          const parsedDdOptions = JSON.parse(cachedBackendData);
   
           setFlagImagePngs(parsedFlagImagePngs);
           setFlagCountryArr(parsedBackendData.map(country => country.name.common));
-          setDdOptions(parsedDdOptions.map(country => country.name.common));
 
         } else {
           console.error('Flag guess data not found in localStorage.');
@@ -76,7 +73,7 @@ const FlagGuessForm = () => {
                     <img id="flag-img-game" src={imageUrl} alt={`Flag ${index + 1}`} />
                     <select className="dropdown-select" value={selectedOptions[index] || ""} onChange={(event) => handleDropdownChange(index, event)}>
                       <option value="">Select an option</option>
-                      {ddOptions.map((option, optionIndex) => (
+                      {flagCountryArr.map((option, optionIndex) => (
                         <option key={optionIndex} value={option}>
                           {option}
                         </option>
