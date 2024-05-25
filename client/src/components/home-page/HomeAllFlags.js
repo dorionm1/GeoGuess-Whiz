@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ReactModal from 'react-modal';
-import { modalStyles } from '../../styles';
-import Spinner from '../Spinner';
-import '../../App.css';
+import { modalStyles } from '../../styling/styles';
+import Spinner from '../common/Spinner';
+import '../../styling/App.css';
 import FlagModalContent from './FlagModalContent';
 
 const HomeAllFlags = () => {

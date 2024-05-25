@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import './../../App.css'
-import FormError from '../FormError';
+import '../../styling/App.css';
+import FormError from '../common/FormError';
 import Timer from './Timer';
 import { jwtDecode } from 'jwt-decode';
 
