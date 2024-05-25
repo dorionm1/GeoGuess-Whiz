@@ -71,7 +71,7 @@ const LogInForm = () => {
               required
             />
             
-            <button type="submit" className="signup-submit-btn">Log In</button>
+            <button id="log-in-submit" type="submit" className="signup-submit-btn">Log In</button>
           </form>
         </div>
       );

@@ -76,9 +76,9 @@ const NavBar = ({ changeLanguage }) => {
             </Nav>
             <Nav>
               {!isAuthenticated ?
-              <Nav.Link className="text-white" href="/log-in">{t('logIn')}</Nav.Link>
+              <Nav.Link id="log-in" className="text-white" href="/log-in">{t('logIn')}</Nav.Link>
               :
-              <Nav.Link className="text-white" onClick={handleLogout}>{t('logOut')}</Nav.Link>}
+              <Nav.Link id="log-out" className="text-white" onClick={handleLogout}>{t('logOut')}</Nav.Link>}
               {!isAuthenticated &&
               <Nav.Link className="text-white" href="/sign-up">{t('signUp')}</Nav.Link>
               }
