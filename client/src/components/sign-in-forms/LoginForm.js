@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import FormError from '../FormError';
-import './../../App.css'
+import FormError from '../common/FormError';
+import '../../styling/App.css';
 
 const LogInForm = () => {
     const [formData, setFormData] = useState({

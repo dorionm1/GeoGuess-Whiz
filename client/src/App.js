@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from './components/NavBar';
+import NavBar from './components/common/NavBar';
 import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n';
-import HomeAllFlags from './components/HomePage/HomeAllFlags';
-import FlagGuessForm from './components/FlagGuesser/FlagGuessForm';
+import i18n from './i18n/i18n';
+import HomeAllFlags from './components/home-page/HomeAllFlags';
+import FlagGuessForm from './components/flag-guesser-game/FlagGuessForm';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignUpForm from './components/SignInForms/SignUpForm';
-import LogInForm from './components/SignInForms/LoginForm';
-import UserScores from './components/Scores';
+import SignUpForm from './components/sign-in-forms/SignUpForm';
+import LogInForm from './components/sign-in-forms/LoginForm';
+import UserScores from './components/flag-guesser-game/Scores';
 
 const App = () => {
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');

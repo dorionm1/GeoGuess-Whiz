@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { coatOfArmsStyles } from '../../styles';
-import Spinner from '../Spinner';
-import '../../App.css';
+import { coatOfArmsStyles } from '../../styling/styles';
+import Spinner from '../common/Spinner';
+import '../../styling/App.css';
 
 const FlagModalContent = ({commonName, currency, mapLink, capital, coatOfArms, flagPng, flagAlt, setLoading, imageLoading}) => {
     const {t} = useTranslation();

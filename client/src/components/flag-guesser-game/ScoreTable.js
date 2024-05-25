@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
-import "../App.css"
+import '../../styling/App.css';
 
 const ScoreTable = ({ data }) => {
     const [user, setUser] = useState(null);
