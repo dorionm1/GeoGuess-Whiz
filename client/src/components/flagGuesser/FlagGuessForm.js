@@ -19,11 +19,11 @@ const FlagGuessForm = () => {
   
       try {
         if (cachedFlagImagePngs && cachedBackendData) {
-          const parsedFlagImagePngs = shuffleArray(JSON.parse(cachedFlagImagePngs)).slice(0, 10);
           const parsedBackendData = shuffleArray(JSON.parse(cachedBackendData)).slice(0, 10);
+          const randomizedCountryArr = shuffleArray(parsedBackendData.map(country => country.name.common));
   
-          setFlagImagePngs(parsedFlagImagePngs);
-          setFlagCountryArr(parsedBackendData.map(country => country.name.common));
+          setFlagImagePngs(parsedBackendData.map(country => country.flags.png));
+          setFlagCountryArr(randomizedCountryArr);
 
         } else {
           console.error('Flag guess data not found in localStorage.');
