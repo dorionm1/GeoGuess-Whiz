@@ -14,16 +14,16 @@ context('Actions', () => {
     })
 
     it('Verify Navbar text is correct after Login', () => {
-        const textAfterLogin = ['GeoGuess Whiz', 'Learn', 'Scores', 'Games', 'Log Out', 'Language']
+    const textAfterLogin = ['GeoGuess Whiz', 'Learn', 'Scores', 'Games', 'Log Out', 'Language']
 
-        cy.get('#log-in').click()
-        cy.get('#username').type('dmitchell1')
-        cy.get('#password').type('Ddamjk61995!')
-        cy.get('#log-in-submit').click()
-        cy.wait(1000)
+    cy.get('#log-in').click()
+    cy.get('#username').type('cypressTest')
+    cy.get('#password').type('cypressTest')
+    cy.get('#log-in-submit').click()
+    cy.wait(1000)
 
-        textAfterLogin.forEach(str => {
-            cy.get('#nav-bar').contains(str)
-        })
+    textAfterLogin.forEach(str => {
+        cy.get('#nav-bar').contains(str)
+    })
     })
 })
